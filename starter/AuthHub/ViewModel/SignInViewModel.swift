@@ -45,7 +45,7 @@ class SignInViewModel: NSObject, ObservableObject {
     }
     
     let callbackURLScheme = NetworkRequest.callbackURLScheme
-    let authenticationSession = ASWebAuthenticationSession(url: signInURL, callbackURLScheme: callbackURLScheme){ [weak self] callbackURL, error in
+    let authenticationSession = ASWebAuthenticationSession(url: signInURL, callbackURLScheme: callbackURLScheme) { [weak self] callbackURL, error in
       guard error == nil,
             let callbackURL = callbackURL,
             let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems,
@@ -56,6 +56,22 @@ class SignInViewModel: NSObject, ObservableObject {
         return
       }
       
+      self?.isLoading = true
+      networkRequest.start(responseType: String.self) { result in
+        switch result {
+        case .success:
+          self?.getUser()
+        case .failure(let error):
+          print("Failed to exchange access code for tokens: \(error)")
+          self?.isLoading = false
+        }
+      }
+    }
+    
+    authenticationSession.presentationContextProvider = self
+    
+    if !authenticationSession.start() {
+      print("Failed to start ASWebAuthenticationSession")
     }
   }
   
@@ -65,5 +81,13 @@ class SignInViewModel: NSObject, ObservableObject {
   }
   
   private func getUser() {
+  }
+}
+
+extension SignInViewModel: ASWebAuthenticationPresentationContextProviding {
+  func presentationAnchor(for session: ASWebAuthenticationSession)
+  -> ASPresentationAnchor {
+    let window = UIApplication.shared.windows.first { $0.isKeyWindow }
+    return window ?? ASPresentationAnchor()
   }
 }
