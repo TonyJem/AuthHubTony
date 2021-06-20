@@ -36,7 +36,7 @@ import SwiftUI
 class SignInViewModel: NSObject, ObservableObject {
   @Published var isShowingRepositoriesView = false
   @Published private(set) var isLoading = false
-
+  
   func signInTapped() {
     print("🟢 signInTapped")
     guard let signInURL = NetworkRequest.RequestType.signIn.networkRequest()?.url else {
@@ -47,10 +47,10 @@ class SignInViewModel: NSObject, ObservableObject {
     let callbackURLScheme = NetworkRequest.callbackURLScheme
     let authenticationSession = ASWebAuthenticationSession(url: signInURL, callbackURLScheme: callbackURLScheme){ [weak self] callbackURL, error in
       guard error == nil,
-        let callbackURL = callbackURL,
-        let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems,
-        let code = queryItems.first(where: { $0.name == "code" })?.value,
-        let networkRequest = NetworkRequest.RequestType.codeExchange(code: code).networkRequest()
+            let callbackURL = callbackURL,
+            let queryItems = URLComponents(string: callbackURL.absoluteString)?.queryItems,
+            let code = queryItems.first(where: { $0.name == "code" })?.value,
+            let networkRequest = NetworkRequest.RequestType.codeExchange(code: code).networkRequest()
       else {
         print("🔴 An error occurred when attempting to sign in.")
         return
@@ -58,12 +58,12 @@ class SignInViewModel: NSObject, ObservableObject {
       
     }
   }
-
+  
   func appeared() {
     // Try to get the user in case the tokens are already stored on this device
     getUser()
   }
-
+  
   private func getUser() {
   }
 }
