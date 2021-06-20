@@ -115,9 +115,9 @@ struct NetworkRequest {
   typealias NetworkResult<T: Decodable> = (response: HTTPURLResponse, object: T)
 
   // MARK: Private Constants
-  static let callbackURLScheme = "YOUR_CALLBACK_SCHEME_HERE"
-  static let clientID = "YOUR_CLIENT_ID_HERE"
-  static let clientSecret = "YOUR_CLIENT_SECRET_HERE"
+  static let callbackURLScheme = "authhub"
+  static let clientID = "Iv1.0e790aae197e5b5e"
+  static let clientSecret = "870213e70615f64e143f1c36646b09d37234a5a2"
 
   // MARK: Properties
   var method: HTTPMethod
