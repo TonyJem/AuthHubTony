@@ -116,8 +116,8 @@ struct NetworkRequest {
 
   // MARK: Private Constants
   static let callbackURLScheme = "authhub"
-  static let clientID = "Iv1.0e790aae197e5b5e"
-  static let clientSecret = "870213e70615f64e143f1c36646b09d37234a5a2"
+  static let clientID = "Iv1.8f06ae8264fe2a88"
+  static let clientSecret = "2ad37abd3777f54c63dd34ae756ea1cb2f69dc87"
 
   // MARK: Properties
   var method: HTTPMethod
